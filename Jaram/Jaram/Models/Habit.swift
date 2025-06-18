@@ -1,22 +1,26 @@
 // Habit.swift
 import UIKit
 
+/// 사용자의 습관 정보를 나타내는 구조체
 struct Habit: Codable {
-    let id: UUID
-    var name: String
-    var colorHex: String
-    var reminderTime: Date = Date()
-    var checkedDates: [String] // 날짜별 체크 기록 ("yyyy-MM-dd")
+    let id: UUID                 // 고유 식별자
+    var name: String             // 습관 이름
+    var colorHex: String         // 색상 값 (16진수 문자열)
+    var reminderTime: Date = Date() // 리마인더 알림 시간
+    var checkedDates: [String]   // 체크된 날짜 목록 ("yyyy-MM-dd")
 
+    /// UIColor로 변환된 색상
     var color: UIColor {
         return UIColor(hex: colorHex) ?? .systemBlue
     }
 
+    /// 주어진 날짜에 체크되어 있는지 여부 확인
     func isChecked(for date: Date) -> Bool {
         let key = Habit.dateFormatter.string(from: date)
         return checkedDates.contains(key)
     }
 
+    /// 체크 여부를 토글한 새로운 Habit 인스턴스를 반환
     func toggled(for date: Date) -> Habit {
         let key = Habit.dateFormatter.string(from: date)
         var updated = checkedDates
@@ -28,15 +32,19 @@ struct Habit: Codable {
         return Habit(id: id, name: name, colorHex: colorHex, reminderTime: reminderTime, checkedDates: updated)
     }
 
+    /// 날짜 형식: "yyyy-MM-dd"
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
+
+    /// 전체 체크 횟수
     var totalCheckCount: Int {
         return checkedDates.count
     }
 
+    /// 이번 주 체크 횟수
     var thisWeekCheckCount: Int {
         let calendar = Calendar.current
         let now = Date()
@@ -45,6 +53,7 @@ struct Habit: Codable {
             .count
     }
 
+    /// 연속 체크 일수 계산
     var consecutiveDaysCount: Int {
         let calendar = Calendar.current
         let sortedDates = checkedDates
