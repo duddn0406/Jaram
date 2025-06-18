@@ -85,3 +85,7 @@ Jaram/
 - 기술 스택: Swift, UIKit, UserNotifications, Xcode
 
 ---
+
+##시현 영상 
+
+https://youtu.be/KeGTblMxaaQ
