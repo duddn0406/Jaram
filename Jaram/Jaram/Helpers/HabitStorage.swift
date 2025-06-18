@@ -75,14 +75,21 @@ class HabitStorage {
         let calendar = Calendar.current
         let dateComponents = calendar.dateComponents([.hour, .minute], from: habit.reminderTime)
 
+        // 로그로 시간 확인
+        print("⏰ [\(habit.name)] 알림 예약 시간: \(dateComponents.hour ?? -1):\(dateComponents.minute ?? -1)")
+
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+
+        // 중복 방지 위해 기존 알림 제거
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [habit.id.uuidString])
+
         let request = UNNotificationRequest(identifier: habit.id.uuidString, content: content, trigger: trigger)
 
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
                 print("❌ 알림 등록 실패: \(error)")
             } else {
-                print("✅ 알림 등록: \(habit.name)")
+                print("✅ [\(habit.name)] 알림 등록 성공")
             }
         }
     }
