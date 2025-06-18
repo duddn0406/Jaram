@@ -79,13 +79,13 @@ Jaram/
 
 ---
 
-## 🙏 제작자
+##  제작자
 
 - 개발자: 이영우 (Lee Young Woo)
 - 기술 스택: Swift, UIKit, UserNotifications, Xcode
 
 ---
 
-##시현 영상 
+## 시현 영상 
 
 https://youtu.be/KeGTblMxaaQ
